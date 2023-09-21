@@ -68,6 +68,7 @@ const signUp = catchAsync(async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { email } = req.body;
+  console.log("email: " + email);
 
   const candidatePassword = req.body.password;
 
@@ -81,22 +82,23 @@ const login = async (req, res, next) => {
   }
 
   //2) check is user exists $password is correct
+
   const user = await User.findOne({ email: email }); // we can do the findOne().select('+password') instead
+console.log("user: " + user)
+  if (!user ) {
+    return next(new AppError('Your email or password is not correct', 400));
+  }
 
   const isPasswordCorrect = await bcrypt.compare(
     candidatePassword,
     user.password
   );
 
-  if (!user || !isPasswordCorrect) {
-    next(new AppError('Your email or password is not correct', 400));
+  if (!isPasswordCorrect) {
+   return next(new AppError('Your email or password is not correct', 400));
   }
 
-  if (isPasswordCorrect) {
     createSendToken(user, 200, res);
-  } else {
-    return next(new AppError('Password is not correct', 400));
-  }
 };
 
 const logout = async (req, res, next) => {
