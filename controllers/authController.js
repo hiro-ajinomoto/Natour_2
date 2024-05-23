@@ -68,7 +68,6 @@ const signUp = catchAsync(async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { email } = req.body;
-  console.log("email: " + email);
 
   const candidatePassword = req.body.password;
 
@@ -84,8 +83,7 @@ const login = async (req, res, next) => {
   //2) check is user exists $password is correct
 
   const user = await User.findOne({ email: email }); // we can do the findOne().select('+password') instead
-console.log("user: " + user)
-  if (!user ) {
+  if (!user) {
     return next(new AppError('Your email or password is not correct', 400));
   }
 
@@ -95,10 +93,10 @@ console.log("user: " + user)
   );
 
   if (!isPasswordCorrect) {
-   return next(new AppError('Your email or password is not correct', 400));
+    return next(new AppError('Your email or password is not correct', 400));
   }
 
-    createSendToken(user, 200, res);
+  createSendToken(user, 200, res);
 };
 
 const logout = async (req, res, next) => {
@@ -120,7 +118,7 @@ const protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   } else if (req.cookies.jwt) {
-    token = req.cookies.jwt; // they get token from cookies
+    token = req.cookies.jwt;
   }
 
   if (!token) {

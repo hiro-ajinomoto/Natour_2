@@ -23,7 +23,6 @@ const bookingRouter = require('./routes/bookingRoutes');
 const compression = require('compression');
 
 // const pug = require('pug');
-// this is recently added to see the green
 const AppError = require('./utils/appErr');
 
 const app = express();
@@ -54,7 +53,6 @@ app.use(
   })
 );
 
-// app.use(express.json());
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true, limit: '10kb' })); // for submit with url, to get field in html form
@@ -91,13 +89,13 @@ app.use(helmet({ contentSecurityPolicy: false }));
 
 app.use(compression()); // compress texts sent to clients
 
-// TEST middleware
+// TEST MIDDLEWARE
 app.use((req, res, next) => {
   // console.log('req.cookies: ', req.cookies);
   next();
 });
 
-//handler -> router -> controller/handler
+//HANDLER
 app.use('/api/v1/tours', tourRouter);
 
 app.use('/api/v1/users', userRouter);
@@ -106,7 +104,8 @@ app.use('/api/v1/reviews', reviewRouter);
 
 app.use('/api/v1/bookings', bookingRouter);
 
-app.use('/', viewRouter); // if I kep url as /api/v1/views or ad anything after / -> it will not load the css
+app.use('/', viewRouter);
+// if I kep url as /api/v1/views or ad anything after / -> it will not load the css
 
 app.all('*', (req, res, next) => {
   next(

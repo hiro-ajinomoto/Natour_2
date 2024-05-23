@@ -88,6 +88,5 @@ const sendEmail = async options => {
   };
 
   //3) actually send email
-
   await transporter.sendMail(mailOptions);
 };

@@ -6,7 +6,7 @@
 const connectDB = require('./dev-data/data/import-dev-data');
 
 const app = require('./app');
-  
+
 // dotenv.config({ path: './config.env' });
 
 // const DB = process.env.DATABASE.replace(
@@ -24,13 +24,12 @@ const app = require('./app');
 //   .then(() => console.l og('DB connection established'));
 
 const server = async () => {
-  const port = process.env.PORT || 3000; 
+  const port = process.env.PORT || 3000;
   // console.log('argv: ', process.argv[2]);
 
   process.env.NODE_ENV = 'production';
   console.log('NODE_ENV ', process.env.NODE_ENV);
 
-  // const server =
   app.listen(port, () => {
     console.log('App running on port: ' + port);
   });
